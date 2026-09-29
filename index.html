@@ -99,13 +99,8 @@
   const resultText = document.getElementById('resultText');
   document.getElementById('year').textContent = new Date().getFullYear();
   const clean = value => value.trim();
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    const business = clean(document.getElementById('business').value);
-    const customer = clean(document.getElementById('customer').value) || 'você';
-    const details = clean(document.getElementById('details').value);
-    const goal = document.getElementById('goal').value;
-    const tone = document.getElementById('tone').value;
+  const createFallbackMessage = ({business, customer, details, goal, tone}) => {
+    customer = customer || 'você';
     const greeting = tone === 'professional' ? 'Olá, tudo bem?' : tone === 'casual' ? 'Oiê! Tudo certo por aí?' : 'Oi, tudo bem? 😊';
     const endings = tone === 'professional' ? 'Se tiver interesse, fico à disposição para passar mais informações.' : tone === 'persuasive' ? 'Quer que eu te envie os detalhes para você aproveitar?' : tone === 'casual' ? 'Me chama por aqui se quiser saber mais! 😄' : 'Se quiser, posso te mandar mais detalhes por aqui!';
     let message = '';
@@ -114,9 +109,39 @@
     if (goal === 'follow') message = `${greeting}\n\nFaz um tempinho que não conversamos e queria saber se você ainda precisa de algo relacionado a ${business}.${details ? '\n\n' + details : ''}\n\n${endings}`;
     if (goal === 'recover') message = `${greeting}\n\nSentimos sua falta por aqui! 💚 Se precisar de algo de ${business}, será um prazer atender você novamente.${details ? '\n\n' + details : ''}\n\n${endings}`;
     if (goal === 'thanks') message = `${greeting}\n\nMuito obrigado pela preferência e pela confiança em nosso trabalho com ${business}! 💚 Esperamos que você goste da sua compra. Se precisar de qualquer coisa, estamos por aqui.${details ? '\n\n' + details : ''}`;
-    resultText.textContent = message;
+    return message;
+  };
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    const fields = {
+      business: clean(document.getElementById('business').value),
+      customer: clean(document.getElementById('customer').value),
+      details: clean(document.getElementById('details').value),
+      goal: document.getElementById('goal').value,
+      tone: document.getElementById('tone').value
+    };
+    const submitButton = form.querySelector('[type="submit"]');
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Gerando...';
+    resultText.textContent = 'Preparando sua sugestão...';
     result.classList.add('show');
     result.scrollIntoView({behavior:'smooth',block:'nearest'});
+    try {
+      const response = await fetch('/api/generate-message', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(fields)
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.message) throw new Error('Falha na geração');
+      resultText.textContent = data.message;
+    } catch {
+      resultText.textContent = `Não foi possível acessar a IA agora, mas preparamos esta sugestão para você:\n\n${createFallbackMessage(fields)}`;
+    } finally {
+      submitButton.disabled = false;
+      submitButton.innerHTML = originalButtonText;
+    }
   });
   document.getElementById('copyBtn').addEventListener('click', async () => {
     try {
