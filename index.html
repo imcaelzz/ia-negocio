@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="IA Negócio: ferramentas simples para criar mensagens, divulgar produtos e atender melhor seus clientes.">
+  <title>IA Negócio — sua rotina comercial mais simples</title>
+  <style>
+    :root{--ink:#17221d;--muted:#617068;--green:#16794b;--green2:#0f5d39;--lime:#d8f66a;--cream:#f7f8f3;--line:#e3e9e2;--white:#fff}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--cream);line-height:1.5}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+    header{background:rgba(247,248,243,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-size:1.15rem;font-weight:850;letter-spacing:-.04em;display:flex;align-items:center;gap:10px}.logo{width:34px;height:34px;border-radius:11px;background:var(--green);color:white;display:grid;place-items:center;font-weight:900}.navlinks{display:flex;gap:26px;color:#4d5c53;font-size:.93rem}.navlinks a:hover{color:var(--green)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;background:var(--green);color:white;font-weight:750;border:0;cursor:pointer;font:inherit;font-weight:750;transition:.18s}.btn:hover{background:var(--green2);transform:translateY(-1px)}.btn.light{background:white;color:var(--ink);border:1px solid var(--line)}.btn.small{padding:10px 14px;font-size:.9rem}
+    .hero{padding:78px 0 66px;background:radial-gradient(ellipse at 78% 20%,#e7f4d5 0,transparent 38%)}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:58px;align-items:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--green);background:#e8f3e8;padding:7px 11px;border-radius:99px;font-size:.82rem;font-weight:800}.dot{width:7px;height:7px;background:#4da86e;border-radius:50%}h1{font-size:clamp(2.5rem,5vw,4.35rem);line-height:1.04;letter-spacing:-.065em;margin:20px 0}h1 em{font-style:normal;color:var(--green)}.hero p{font-size:1.12rem;color:var(--muted);max-width:560px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.trust{margin-top:22px;color:#77847b;font-size:.86rem}.preview{background:white;border:1px solid #e4e9df;border-radius:24px;padding:22px;box-shadow:0 24px 70px #203c2514;transform:rotate(1deg)}.preview-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.window-dots{display:flex;gap:5px}.window-dots i{width:7px;height:7px;border-radius:50%;background:#d9dfd8}.pill{font-size:.75rem;color:var(--green);background:#edf7e9;padding:5px 9px;border-radius:99px;font-weight:750}.preview h3{margin:0 0 5px;font-size:1.1rem}.preview p{font-size:.88rem;margin:0 0 16px}.fake-field{border:1px solid var(--line);border-radius:11px;padding:12px;color:#879188;font-size:.87rem;margin-top:9px}.fake-result{background:#f3f8ef;border-radius:13px;padding:15px;margin-top:14px;font-size:.9rem;color:#33473a}.fake-result strong{display:block;color:var(--green);font-size:.78rem;margin-bottom:6px}
+    section{padding:72px 0}.section-head{text-align:center;max-width:650px;margin:0 auto 36px}.section-head h2{font-size:clamp(1.8rem,3.4vw,2.7rem);letter-spacing:-.05em;line-height:1.12;margin:12px 0}.section-head p{color:var(--muted);margin:0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.tool-card{background:white;border:1px solid var(--line);border-radius:18px;padding:24px;min-height:190px}.tool-icon{width:43px;height:43px;border-radius:13px;background:#edf6e8;display:grid;place-items:center;font-size:1.25rem;margin-bottom:18px}.tool-card h3{margin:0 0 8px;font-size:1.08rem}.tool-card p{color:var(--muted);font-size:.93rem;margin:0}.tool-card .soon{display:inline-block;margin-top:14px;font-size:.76rem;font-weight:800;color:#77847b}
+    .tool-section{background:#edf3e9}.tool-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:start}.tool-copy h2{font-size:clamp(1.9rem,3vw,2.7rem);line-height:1.1;letter-spacing:-.05em;margin:14px 0}.tool-copy p{color:var(--muted)}.checklist{list-style:none;padding:0;margin:22px 0}.checklist li{margin:10px 0;color:#435349}.checklist li:before{content:"✓";font-weight:900;color:var(--green);margin-right:10px}
+    .form-card{background:white;border:1px solid #dfe7dd;border-radius:20px;padding:25px;box-shadow:0 12px 35px #19351d0b}.form-card h3{margin:0 0 5px}.form-card .sub{margin:0 0 20px;color:var(--muted);font-size:.9rem}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:.85rem;font-weight:750}.field input,.field select,.field textarea{width:100%;border:1px solid #dce4db;border-radius:10px;padding:12px 13px;background:white;font:inherit;font-size:.92rem;color:var(--ink);outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px #16794b15}.field textarea{min-height:80px;resize:vertical}.form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}.result{display:none;margin-top:20px;background:#f2f8ee;border:1px solid #dcebd5;border-radius:14px;padding:16px}.result.show{display:block}.result-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:9px}.result-head strong{color:var(--green);font-size:.9rem}.result-text{white-space:pre-wrap;font-size:.94rem}.notice{font-size:.78rem;color:#7b877e;margin-top:12px}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:25px}.step{padding:10px}.number{font-size:.8rem;font-weight:850;color:var(--green);background:#e8f3e8;border-radius:10px;padding:8px 11px;display:inline-block}.step h3{margin:16px 0 7px}.step p{color:var(--muted);font-size:.94rem;margin:0}
+    .cta{padding:0 0 78px}.cta-box{border-radius:25px;padding:44px;background:var(--green);color:white;display:flex;align-items:center;justify-content:space-between;gap:25px}.cta-box h2{font-size:clamp(1.7rem,3vw,2.5rem);letter-spacing:-.045em;line-height:1.12;margin:0 0 8px}.cta-box p{margin:0;color:#d6e8dc}.cta-box .btn{background:var(--lime);color:#1c2b20;white-space:nowrap}
+    footer{border-top:1px solid var(--line);padding:28px 0;color:#718077;font-size:.86rem}.footer-inner{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    @media(max-width:800px){.hero-grid,.tool-layout{grid-template-columns:1fr;gap:34px}.hero{padding:54px 0}.preview{transform:none}.cards{grid-template-columns:1fr 1fr}.navlinks{display:none}.steps{grid-template-columns:1fr}.cta-box{align-items:flex-start;flex-direction:column}}
+    @media(max-width:520px){.wrap{width:min(100% - 28px,1120px)}.nav{height:66px}.nav .btn{padding:9px 11px;font-size:.84rem}.cards{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.form-card{padding:18px}.cta-box{padding:28px}.hero h1{font-size:2.65rem}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#inicio"><span class="logo">iA</span> IA Negócio</a>
+    <nav class="navlinks" aria-label="Navegação principal"><a href="#ferramentas">Ferramentas</a><a href="#como-funciona">Como funciona</a><a href="#gerador">Experimentar</a></nav>
+    <a class="btn small" href="#gerador">Testar grátis <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<main>
+  <section class="hero" id="inicio">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> IA prática para pequenos negócios</span>
+        <h1>Seu negócio mais ágil. <em>Suas vendas em movimento.</em></h1>
+        <p>Crie mensagens para clientes, divulgue seus produtos e ganhe tempo nas tarefas do dia a dia — sem complicação.</p>
+        <div class="actions"><a class="btn" href="#gerador">Criar mensagem grátis <span aria-hidden="true">→</span></a><a class="btn light" href="#ferramentas">Conhecer ferramentas</a></div>
+        <div class="trust">Feito para quem vende, atende e empreende no Brasil.</div>
+      </div>
+      <div class="preview" aria-label="Prévia ilustrativa de uma ferramenta">
+        <div class="preview-top"><div class="window-dots"><i></i><i></i><i></i></div><span class="pill">Assistente de vendas</span></div>
+        <h3>Uma mensagem pronta em poucos passos</h3>
+        <p>Conte o que você vende e o que deseja alcançar.</p>
+        <div class="fake-field">O que você vende? · Ex.: bolos artesanais</div>
+        <div class="fake-field">Objetivo · Apresentar uma oferta</div>
+        <div class="fake-result"><strong>EXEMPLO DE MENSAGEM</strong>Oi, tudo bem? 😊 Passando para contar que temos novidades por aqui! Quer que eu te envie as opções disponíveis?</div>
+      </div>
+    </div>
+  </section>
+  <section id="ferramentas">
+    <div class="wrap">
+      <div class="section-head"><span class="eyebrow">Ferramentas simples</span><h2>Menos tempo escrevendo.<br>Mais tempo cuidando do negócio.</h2><p>Comece com mensagens para WhatsApp e descubra outras ferramentas para sua rotina comercial.</p></div>
+      <div class="cards">
+        <article class="tool-card"><div class="tool-icon">💬</div><h3>Mensagens para WhatsApp</h3><p>Prepare mensagens para atender, apresentar ofertas e conversar com clientes.</p></article>
+        <article class="tool-card"><div class="tool-icon">📣</div><h3>Textos para divulgação</h3><p>Organize ideias para divulgar produtos, serviços e promoções.</p><span class="soon">EM BREVE</span></article>
+        <article class="tool-card"><div class="tool-icon">🛍️</div><h3>Descrições de produtos</h3><p>Apresente os benefícios do que você vende de forma clara e atrativa.</p><span class="soon">EM BREVE</span></article>
+      </div>
+    </div>
+  </section>
+  <section class="tool-section" id="gerador">
+    <div class="wrap tool-layout">
+      <div class="tool-copy"><span class="eyebrow">Experimente agora</span><h2>Monte sua próxima mensagem de WhatsApp.</h2><p>Preencha os campos e receba uma sugestão que você pode adaptar ao seu jeito de falar.</p><ul class="checklist"><li>Escolha o objetivo da mensagem</li><li>Defina o tom da conversa</li><li>Copie e personalize antes de enviar</li></ul></div>
+      <div class="form-card">
+        <h3>Gerador de mensagens</h3><p class="sub">Preencha as informações do seu negócio.</p>
+        <form id="messageForm">
+          <div class="form-grid">
+            <div class="field"><label for="business">O que você vende?</label><input id="business" required placeholder="Ex.: roupas femininas"></div>
+            <div class="field"><label for="customer">Para quem é a mensagem?</label><input id="customer" placeholder="Ex.: clientes que já compraram"></div>
+            <div class="field"><label for="goal">Objetivo</label><select id="goal"><option value="offer">Divulgar uma oferta</option><option value="first">Abordar um novo cliente</option><option value="follow">Retomar contato</option><option value="recover">Recuperar um cliente</option><option value="thanks">Agradecer uma compra</option></select></div>
+            <div class="field"><label for="tone">Tom da mensagem</label><select id="tone"><option value="friendly">Amigável</option><option value="professional">Profissional</option><option value="persuasive">Persuasivo, sem exageros</option><option value="casual">Descontraído</option></select></div>
+            <div class="field full"><label for="details">Detalhes extras (opcional)</label><textarea id="details" placeholder="Ex.: 10% de desconto até sexta, entrega na região..."></textarea></div>
+          </div>
+          <div class="form-actions"><button class="btn" type="submit">Gerar mensagem <span aria-hidden="true">→</span></button><button class="btn light" type="reset">Limpar</button></div>
+        </form>
+        <div class="result" id="result" aria-live="polite"><div class="result-head"><strong>SUA SUGESTÃO</strong><button type="button" class="btn light small" id="copyBtn">Copiar texto</button></div><div class="result-text" id="resultText"></div></div>
+        <p class="notice">Versão inicial demonstrativa: as sugestões são geradas no próprio navegador, sem conexão com uma API de IA.</p>
+      </div>
+    </div>
+  </section>
+  <section id="como-funciona">
+    <div class="wrap">
+      <div class="section-head"><span class="eyebrow">Sem complicação</span><h2>Da ideia à mensagem em três passos.</h2><p>Uma experiência direta, feita para quem precisa resolver as coisas no dia a dia.</p></div>
+      <div class="steps">
+        <div class="step"><span class="number">01 / Conte</span><h3>Explique o que precisa</h3><p>Informe o produto, o público e o objetivo da conversa.</p></div>
+        <div class="step"><span class="number">02 / Crie</span><h3>Gere uma sugestão</h3><p>Receba uma primeira versão para usar como ponto de partida.</p></div>
+        <div class="step"><span class="number">03 / Personalize</span><h3>Envie do seu jeito</h3><p>Revise os detalhes e deixe a mensagem com a cara do seu negócio.</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="cta"><div class="wrap"><div class="cta-box"><div><h2>Seu próximo texto começa aqui.</h2><p>Experimente o gerador e simplifique sua rotina comercial.</p></div><a class="btn" href="#gerador">Experimentar grátis →</a></div></div></section>
+</main>
+<footer><div class="wrap footer-inner"><a class="brand" href="#inicio"><span class="logo">iA</span> IA Negócio</a><span>Ferramentas práticas para quem empreende.</span><span>© <span id="year"></span> IA Negócio</span></div></footer>
+<script>
+  const form = document.getElementById('messageForm');
+  const result = document.getElementById('result');
+  const resultText = document.getElementById('resultText');
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const clean = value => value.trim();
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const business = clean(document.getElementById('business').value);
+    const customer = clean(document.getElementById('customer').value) || 'você';
+    const details = clean(document.getElementById('details').value);
+    const goal = document.getElementById('goal').value;
+    const tone = document.getElementById('tone').value;
+    const greeting = tone === 'professional' ? 'Olá, tudo bem?' : tone === 'casual' ? 'Oiê! Tudo certo por aí?' : 'Oi, tudo bem? 😊';
+    const endings = tone === 'professional' ? 'Se tiver interesse, fico à disposição para passar mais informações.' : tone === 'persuasive' ? 'Quer que eu te envie os detalhes para você aproveitar?' : tone === 'casual' ? 'Me chama por aqui se quiser saber mais! 😄' : 'Se quiser, posso te mandar mais detalhes por aqui!';
+    let message = '';
+    if (goal === 'offer') message = `${greeting}\n\nEstou passando para te contar uma novidade sobre ${business}!${details ? '\n\n' + details : ''}\n\n${endings}`;
+    if (goal === 'first') message = `${greeting}\n\nMeu nome é [seu nome] e trabalho com ${business}. Estou entrando em contato para apresentar nossos produtos/serviços e entender se posso ajudar ${customer === 'você' ? 'você' : customer}.\n\n${endings}`;
+    if (goal === 'follow') message = `${greeting}\n\nFaz um tempinho que não conversamos e queria saber se você ainda precisa de algo relacionado a ${business}.${details ? '\n\n' + details : ''}\n\n${endings}`;
+    if (goal === 'recover') message = `${greeting}\n\nSentimos sua falta por aqui! 💚 Se precisar de algo de ${business}, será um prazer atender você novamente.${details ? '\n\n' + details : ''}\n\n${endings}`;
+    if (goal === 'thanks') message = `${greeting}\n\nMuito obrigado pela preferência e pela confiança em nosso trabalho com ${business}! 💚 Esperamos que você goste da sua compra. Se precisar de qualquer coisa, estamos por aqui.${details ? '\n\n' + details : ''}`;
+    resultText.textContent = message;
+    result.classList.add('show');
+    result.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(resultText.textContent);
+      document.getElementById('copyBtn').textContent = 'Copiado!';
+      setTimeout(() => document.getElementById('copyBtn').textContent = 'Copiar texto', 1600);
+    } catch {
+      const range = document.createRange();
+      range.selectNodeContents(resultText);
+      const selection = window.getSelection();
+      selection.removeAllRanges(); selection.addRange(range);
+      document.getElementById('copyBtn').textContent = 'Selecione e copie';
+    }
+  });
+  form.addEventListener('reset', () => result.classList.remove('show'));
+</script>
+</body>
+</html>
