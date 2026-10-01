@@ -116,7 +116,13 @@ const rawMessage = data.candidates?.[0]?.content?.parts
 let message = '';
 
 try {
-  const parsed = JSON.parse(rawMessage);
+  const jsonText = rawMessage
+    .replace(/^```json\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim();
+
+  const parsed = JSON.parse(jsonText);
 
   const opening = `${business}: ${details || 'Confira nossa oferta de hoje.'}`;
 
@@ -125,7 +131,7 @@ try {
     .join(' ')
     .trim();
 } catch {
-  message = rawMessage;
+  message = `${business}: ${details || 'Confira nossa oferta de hoje.'}`;
 }
 
     if (!message) {
