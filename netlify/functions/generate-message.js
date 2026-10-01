@@ -56,7 +56,7 @@ Escreva somente a mensagem pronta para envio, em português do Brasil, sem títu
 
 Seja claro, natural, breve e persuasivo sem exageros. Escreva como uma pessoa que realmente conversa com clientes pelo WhatsApp.
 
-Quando o objetivo for "Divulgar uma oferta", escreva a mensagem começando diretamente pelo produto, oferta, preço, desconto ou principal benefício informado pelo usuário. A primeira frase deve ser uma frase comercial direta e objetiva. NÃO faça saudação, apresentação, pergunta, contexto, história ou introdução antes da oferta. NÃO comece com "Oi", "Olá", "Oi, tudo bem?", "Tudo bem?", "Cansado de...", "Sabe aquela..." ou perguntas retóricas. Depois da primeira frase, apresente os detalhes importantes da oferta, como preço, desconto, prazo ou condição, e finalize com uma chamada para ação clara. Não repita a oferta e não invente informações.
+Quando o objetivo for "Divulgar uma oferta", a mensagem DEVE começar com a oferta. A PRIMEIRA frase deve obrigatoriamente conter o produto ou serviço e o principal benefício, preço ou desconto informado pelo usuário. É PROIBIDO começar com saudação, pergunta, introdução, contexto, problema do cliente ou apresentação. É PROIBIDO começar com "Oi", "Olá", "Oi, tudo bem?", "Tudo bem?", "Cansado de...", "Sabe aquela..." ou qualquer frase que não apresente a oferta. Exemplo de estrutura correta: "Combo com 5 marmitas por R$ 59,90, com entrega grátis hoje." Depois disso, apresente prazo, condições e outros detalhes fornecidos pelo usuário e finalize com uma chamada para ação. Não invente informações.
 
 Use frases curtas e fáceis de ler no celular. Evite repetir informações. Use emojis somente quando combinarem com o contexto e com moderação.
 
