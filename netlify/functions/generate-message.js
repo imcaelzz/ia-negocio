@@ -44,7 +44,7 @@ export default async (request) => {
       return json({ error: 'Preencha os campos obrigatórios.' }, 400);
     }
 
-    const prompt = `Crie uma única mensagem de WhatsApp em português do Brasil para um pequeno negócio.
+   const prompt = `Crie uma mensagem de WhatsApp em português do Brasil para um pequeno negócio.
 
 Produto ou serviço: ${business}
 Público: ${customer || 'não informado'}
@@ -52,22 +52,27 @@ Objetivo: ${goal}
 Tom: ${tone}
 Detalhes extras: ${details || 'nenhum'}
 
-Escreva somente a mensagem pronta para envio, em português do Brasil, sem título, explicações, aspas ou formatação Markdown.
+Responda SOMENTE com um objeto JSON válido, sem Markdown e sem texto antes ou depois.
 
-Seja claro, natural, breve e persuasivo sem exageros. Escreva como uma pessoa que realmente conversa com clientes pelo WhatsApp.
+O JSON deve ter exatamente estes três campos:
+{
+  "opening": "primeira frase da mensagem",
+  "details": "detalhes da oferta ou mensagem",
+  "cta": "chamada para ação"
+}
 
-Quando o objetivo for "Divulgar uma oferta", a mensagem DEVE começar com a oferta. A PRIMEIRA frase deve obrigatoriamente conter o produto ou serviço e o principal benefício, preço ou desconto informado pelo usuário. É PROIBIDO começar com saudação, pergunta, introdução, contexto, problema do cliente ou apresentação. É PROIBIDO começar com "Oi", "Olá", "Oi, tudo bem?", "Tudo bem?", "Cansado de...", "Sabe aquela..." ou qualquer frase que não apresente a oferta. Exemplo de estrutura correta: "Combo com 5 marmitas por R$ 59,90, com entrega grátis hoje." Depois disso, apresente prazo, condições e outros detalhes fornecidos pelo usuário e finalize com uma chamada para ação. Não invente informações.
+Regras:
 
-Use frases curtas e fáceis de ler no celular. Evite repetir informações. Use emojis somente quando combinarem com o contexto e com moderação.
-
-Preserve exatamente os dados fornecidos pelo usuário, incluindo preços, descontos, prazos, condições e características do produto ou serviço. Não invente nenhuma informação.
-
-Inclua uma chamada para ação clara e natural, adequada ao objetivo da mensagem.
-
-A resposta NUNCA deve conter placeholders como [Nome do Cliente], [nome], {{nome}}, <nome> ou qualquer marcador semelhante. Entregue uma mensagem final, pronta para copiar e enviar ao cliente, sem campos que precisem ser preenchidos manualmente.
-
-Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão genérica natural, sem inventar dados nem pedir substituições.`;
-
+1. O campo "opening" deve começar diretamente com o produto, serviço, oferta, preço, desconto ou principal benefício informado pelo usuário.
+2. Se o objetivo for "Divulgar uma oferta", o campo "opening" NÃO pode começar com "Oi", "Olá", "Tudo bem?", "Cansado de", "Sabe aquela" ou qualquer saudação, pergunta ou introdução.
+3. Para "Divulgar uma oferta", o campo "opening" deve apresentar a oferta diretamente. Exemplo: "Combo com 5 marmitas por R$ 59,90, com entrega grátis hoje."
+4. O campo "details" deve conter somente informações fornecidas pelo usuário, como prazo, condições, características, preço ou desconto.
+5. O campo "cta" deve terminar a mensagem com uma chamada para ação clara e natural.
+6. Não invente informações.
+7. Não use placeholders como [Nome], [Nome do Cliente], {{nome}} ou <nome>.
+8. Escreva em português do Brasil, de forma natural, breve e fácil de ler no WhatsApp.
+9. Não use título, explicações ou Markdown.
+10. Preserve exatamente preços, descontos, prazos e condições fornecidos pelo usuário.`;
     const requestOptions = {
       method: 'POST',
       headers: {
