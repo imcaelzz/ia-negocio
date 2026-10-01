@@ -117,7 +117,6 @@ let message = '';
 
 try {
   const parsed = JSON.parse(rawMessage);
-  console.log('RESPOSTA GEMINI:', parsed);
   message = [parsed.opening, parsed.details, parsed.cta]
     .filter(Boolean)
     .join(' ')
