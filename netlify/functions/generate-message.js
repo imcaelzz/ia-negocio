@@ -128,16 +128,15 @@ Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão
 
   const priceIndex = cleaned.search(/R\$\s*[\d.,]+/i);
 
-  if (priceIndex > 0) {
-    const beforePrice = cleaned.slice(0, priceIndex);
-    const sentenceStart = Math.max(
-      beforePrice.lastIndexOf('.'),
-      beforePrice.lastIndexOf('!'),
-      beforePrice.lastIndexOf('?')
-    ) + 1;
+if (priceIndex > 0) {
+  const sentenceStart = Math.max(
+    cleaned.lastIndexOf('.', priceIndex),
+    cleaned.lastIndexOf('!', priceIndex),
+    cleaned.lastIndexOf('?', priceIndex)
+  ) + 1;
 
-    cleaned = cleaned.slice(sentenceStart).trim();
-  }
+  cleaned = cleaned.slice(sentenceStart).trim();
+}
 
   const midpoint = Math.floor(cleaned.length / 2);
   const firstHalf = cleaned.slice(0, midpoint).trim();
