@@ -1,3 +1,5 @@
+
+
 const json = (body, status = 200) => Response.json(body, { status });
 
 const labels = {
@@ -126,10 +128,16 @@ Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão
 
   const priceIndex = cleaned.search(/R\$\s*[\d.,]+/i);
 
-if (priceIndex > 0) {
-  const sentenceStart = cleaned.lastIndexOf('.', priceIndex) + 1;
-  cleaned = cleaned.slice(sentenceStart).trim();
-}
+  if (priceIndex > 0) {
+    const beforePrice = cleaned.slice(0, priceIndex);
+    const sentenceStart = Math.max(
+      beforePrice.lastIndexOf('.'),
+      beforePrice.lastIndexOf('!'),
+      beforePrice.lastIndexOf('?')
+    ) + 1;
+
+    cleaned = cleaned.slice(sentenceStart).trim();
+  }
 
   const midpoint = Math.floor(cleaned.length / 2);
   const firstHalf = cleaned.slice(0, midpoint).trim();
@@ -141,7 +149,6 @@ if (priceIndex > 0) {
 
   return cleaned;
 })();
-
 return json({ message: cleanMessage });
   } catch (error) {
     console.error('Falha ao gerar mensagem:', error instanceof Error ? error.message : 'erro desconhecido');
