@@ -122,28 +122,24 @@ Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão
     .replaceAll('{{nome}}', '')
     .replaceAll('<Nome>', '')
     .replaceAll('<nome>', '')
-    .replace(/\s{2,}/g, ' ')
-    .replace(/\s+([,.!?])/g, '$1')
+    .replace(/\s+/g, ' ')
     .trim();
 
-  const priceIndex = cleaned.search(/R\$\s*[\d.,]+/i);
+  const priceMatch = cleaned.match(/R\$\s*[\d.,]+/i);
 
-if (priceIndex > 0) {
-  const sentenceStart = Math.max(
-    cleaned.lastIndexOf('.', priceIndex),
-    cleaned.lastIndexOf('!', priceIndex),
-    cleaned.lastIndexOf('?', priceIndex)
-  ) + 1;
+  if (priceMatch) {
+    const priceIndex = priceMatch.index;
+    const offerStart = cleaned.lastIndexOf('.', priceIndex) + 1;
+    const exclamationStart = cleaned.lastIndexOf('!', priceIndex) + 1;
+    const questionStart = cleaned.lastIndexOf('?', priceIndex) + 1;
 
-  cleaned = cleaned.slice(sentenceStart).trim();
-}
+    const start = Math.max(
+      offerStart,
+      exclamationStart,
+      questionStart
+    );
 
-  const midpoint = Math.floor(cleaned.length / 2);
-  const firstHalf = cleaned.slice(0, midpoint).trim();
-  const secondHalf = cleaned.slice(midpoint).trim();
-
-  if (firstHalf && firstHalf === secondHalf) {
-    cleaned = firstHalf;
+    cleaned = cleaned.slice(start).trim();
   }
 
   return cleaned;
