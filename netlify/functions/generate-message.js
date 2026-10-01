@@ -110,23 +110,39 @@ Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão
       return json({ error: 'Não foi possível gerar a mensagem agora.' }, 502);
     }
 
-    const cleanMessage = message
-  .replace(/^(oi|olá|ola)(,? ?tudo bem[?!]? ?)?/i, '')
-  .replace(/^(cansado de|cansada de) [^.!?]+[.!?] ?/i, '')
-  .replace(/^(que tal|já pensou em) [^.!?]+[?!] ?/i, '')
-  .replace(/^(sabe aquela|sabe aquele) [^.!?]+[?!] ?/i, '')
-  .replace(/^(a gente|nós) [^.!?]+[.!?] ?/i, '')
-  .replaceAll('[Nome do Cliente]', '')
-  .replaceAll('[nome do cliente]', '')
-  .replaceAll('[Nome]', '')
-  .replaceAll('[nome]', '')
-  .replaceAll('{{Nome}}', '')
-  .replaceAll('{{nome}}', '')
-  .replaceAll('<Nome>', '')
-  .replaceAll('<nome>', '')
-  .replace(/\s{2,}/g, ' ')
-  .replace(/\s+([,.!?])/g, '$1')
-  .trim();
+    const cleanMessage = (() => {
+  let cleaned = message
+    .replaceAll('[Nome do Cliente]', '')
+    .replaceAll('[nome do cliente]', '')
+    .replaceAll('[Nome]', '')
+    .replaceAll('[nome]', '')
+    .replaceAll('{{Nome}}', '')
+    .replaceAll('{{nome}}', '')
+    .replaceAll('<Nome>', '')
+    .replaceAll('<nome>', '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+([,.!?])/g, '$1')
+    .trim();
+
+  const sentences = cleaned.match(/[^.!?]+[.!?]+/g) || [cleaned];
+  const offerIndex = sentences.findIndex((sentence) =>
+    /R\$\s*[\d.,]+|desconto|oferta|combo|grátis|gratuita|gratuito/i.test(sentence)
+  );
+
+  if (offerIndex > 0) {
+    cleaned = sentences.slice(offerIndex).join(' ').trim();
+  }
+
+  const midpoint = Math.floor(cleaned.length / 2);
+  const firstHalf = cleaned.slice(0, midpoint).trim();
+  const secondHalf = cleaned.slice(midpoint).trim();
+
+  if (firstHalf && firstHalf === secondHalf) {
+    cleaned = firstHalf;
+  }
+
+  return cleaned;
+})();
 
 return json({ message: cleanMessage });
   } catch (error) {
