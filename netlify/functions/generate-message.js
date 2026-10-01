@@ -112,7 +112,7 @@ Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão
       return json({ error: 'Não foi possível gerar a mensagem agora.' }, 502);
     }
 
-    const cleanMessage = (() => {
+  const cleanMessage = (() => {
   let cleaned = message
     .replaceAll('[Nome do Cliente]', '')
     .replaceAll('[nome do cliente]', '')
@@ -127,19 +127,16 @@ Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão
 
   const priceMatch = cleaned.match(/R\$\s*[\d.,]+/i);
 
-  if (priceMatch) {
+  if (priceMatch && priceMatch.index !== undefined) {
     const priceIndex = priceMatch.index;
-    const offerStart = cleaned.lastIndexOf('.', priceIndex) + 1;
-    const exclamationStart = cleaned.lastIndexOf('!', priceIndex) + 1;
-    const questionStart = cleaned.lastIndexOf('?', priceIndex) + 1;
 
-    const start = Math.max(
-      offerStart,
-      exclamationStart,
-      questionStart
-    );
+    const sentenceStart = Math.max(
+      cleaned.lastIndexOf('.', priceIndex),
+      cleaned.lastIndexOf('!', priceIndex),
+      cleaned.lastIndexOf('?', priceIndex)
+    ) + 1;
 
-    cleaned = cleaned.slice(start).trim();
+    cleaned = cleaned.slice(sentenceStart).trim();
   }
 
   return cleaned;
