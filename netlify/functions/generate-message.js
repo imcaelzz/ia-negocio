@@ -111,9 +111,17 @@ Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão
     }
 
     const cleanMessage = message
-  .replace(/\[(?:nome(?: do cliente)?|name(?: of customer)?)\]/gi, '')
-  .replace(/\{\{(?:nome(?: do cliente)?|name(?: of customer)?)\}\}/gi, '')
-  .replace(/<(?:nome(?: do cliente)?|name(?: of customer)?)>/gi, '')
+  .replace(/^(oi|olá|ola)(,? ?tudo bem[?!]? ?)?/i, '')
+  .replace(/^(cansado de|cansada de) [^.!?]+[.!?] ?/i, '')
+  .replace(/^(que tal|já pensou em) [^.!?]+[?!] ?/i, '')
+  .replaceAll('[Nome do Cliente]', '')
+  .replaceAll('[nome do cliente]', '')
+  .replaceAll('[Nome]', '')
+  .replaceAll('[nome]', '')
+  .replaceAll('{{Nome}}', '')
+  .replaceAll('{{nome}}', '')
+  .replaceAll('<Nome>', '')
+  .replaceAll('<nome>', '')
   .replace(/\s{2,}/g, ' ')
   .replace(/\s+([,.!?])/g, '$1')
   .trim();
