@@ -50,7 +50,7 @@ Objetivo: ${goal}
 Tom: ${tone}
 Detalhes extras: ${details || 'nenhum'}
 
-Escreva somente a mensagem pronta para envio, sem título, explicações, aspas ou formatação Markdown. Seja claro, natural e breve. Não invente preço, prazo, desconto, nome ou condição que não tenha sido informada. Inclua uma chamada para ação adequada ao objetivo.`;
+Escreva somente a mensagem pronta para envio, sem título, explicações, aspas ou formatação Markdown. Seja claro, natural e breve. Não invente preço, prazo, desconto, nome ou condição que não tenha sido informada. Inclua uma chamada para ação adequada ao objetivo. A resposta NUNCA deve conter placeholders como [Nome do Cliente], [nome], {{nome}}, <nome> ou qualquer marcador semelhante. Entregue uma mensagem final, pronta para copiar e enviar ao cliente, sem campos que precisem ser preenchidos manualmente. Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão genérica natural, sem inventar dados nem pedir substituições.`;
 
     const requestOptions = {
       method: 'POST',
