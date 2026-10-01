@@ -126,12 +126,12 @@ Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão
 
   const sentences = cleaned.match(/[^.!?]+[.!?]+/g) || [cleaned];
   const offerIndex = sentences.findIndex((sentence) =>
-    /R\$\s*[\d.,]+|desconto|oferta|combo|grátis|gratuita|gratuito/i.test(sentence)
-  );
+  /R\$\s*[\d.,]+/i.test(sentence)
+);
 
-  if (offerIndex > 0) {
-    cleaned = sentences.slice(offerIndex).join(' ').trim();
-  }
+if (offerIndex > 0) {
+  cleaned = sentences.slice(offerIndex).join(' ').trim();
+}
 
   const midpoint = Math.floor(cleaned.length / 2);
   const firstHalf = cleaned.slice(0, midpoint).trim();
