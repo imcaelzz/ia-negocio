@@ -96,7 +96,15 @@ Escreva somente a mensagem pronta para envio, sem título, explicações, aspas 
       return json({ error: 'Não foi possível gerar a mensagem agora.' }, 502);
     }
 
-    return json({ message });
+    const cleanMessage = message
+  .replace(/\[(?:nome(?: do cliente)?|name(?: of customer)?)\]/gi, '')
+  .replace(/\{\{(?:nome(?: do cliente)?|name(?: of customer)?)\}\}/gi, '')
+  .replace(/<(?:nome(?: do cliente)?|name(?: of customer)?)>/gi, '')
+  .replace(/\s{2,}/g, ' ')
+  .replace(/\s+([,.!?])/g, '$1')
+  .trim();
+
+return json({ message: cleanMessage });
   } catch (error) {
     console.error('Falha ao gerar mensagem:', error instanceof Error ? error.message : 'erro desconhecido');
     return json({ error: 'Não foi possível gerar a mensagem agora.' }, 500);
