@@ -124,13 +124,11 @@ Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão
     .replace(/\s+([,.!?])/g, '$1')
     .trim();
 
-  const sentences = cleaned.match(/[^.!?]+[.!?]+/g) || [cleaned];
-  const offerIndex = sentences.findIndex((sentence) =>
-  /R\$\s*[\d.,]+/i.test(sentence)
-);
+  const priceIndex = cleaned.search(/R\$\s*[\d.,]+/i);
 
-if (offerIndex > 0) {
-  cleaned = sentences.slice(offerIndex).join(' ').trim();
+if (priceIndex > 0) {
+  const sentenceStart = cleaned.lastIndexOf('.', priceIndex) + 1;
+  cleaned = cleaned.slice(sentenceStart).trim();
 }
 
   const midpoint = Math.floor(cleaned.length / 2);
