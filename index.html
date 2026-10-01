@@ -76,7 +76,6 @@
           <div class="form-actions"><button class="btn" type="submit">Gerar mensagem <span aria-hidden="true">→</span></button><button class="btn light" type="reset">Limpar</button></div>
         </form>
         <div class="result" id="result" aria-live="polite"><div class="result-head"><strong>SUA SUGESTÃO</strong><button type="button" class="btn light small" id="copyBtn">Copiar texto</button></div><div class="result-text" id="resultText"></div></div>
-        <p class="notice">Versão inicial demonstrativa: as sugestões são geradas no próprio navegador, sem conexão com uma API de IA.</p>
       </div>
     </div>
   </section>
@@ -99,20 +98,10 @@
   const resultText = document.getElementById('resultText');
   document.getElementById('year').textContent = new Date().getFullYear();
   const clean = value => value.trim();
-  const createFallbackMessage = ({business, customer, details, goal, tone}) => {
-    customer = customer || 'você';
-    const greeting = tone === 'professional' ? 'Olá, tudo bem?' : tone === 'casual' ? 'Oiê! Tudo certo por aí?' : 'Oi, tudo bem? 😊';
-    const endings = tone === 'professional' ? 'Se tiver interesse, fico à disposição para passar mais informações.' : tone === 'persuasive' ? 'Quer que eu te envie os detalhes para você aproveitar?' : tone === 'casual' ? 'Me chama por aqui se quiser saber mais! 😄' : 'Se quiser, posso te mandar mais detalhes por aqui!';
-    let message = '';
-    if (goal === 'offer') message = `${greeting}\n\nEstou passando para te contar uma novidade sobre ${business}!${details ? '\n\n' + details : ''}\n\n${endings}`;
-    if (goal === 'first') message = `${greeting}\n\nMeu nome é [seu nome] e trabalho com ${business}. Estou entrando em contato para apresentar nossos produtos/serviços e entender se posso ajudar ${customer === 'você' ? 'você' : customer}.\n\n${endings}`;
-    if (goal === 'follow') message = `${greeting}\n\nFaz um tempinho que não conversamos e queria saber se você ainda precisa de algo relacionado a ${business}.${details ? '\n\n' + details : ''}\n\n${endings}`;
-    if (goal === 'recover') message = `${greeting}\n\nSentimos sua falta por aqui! 💚 Se precisar de algo de ${business}, será um prazer atender você novamente.${details ? '\n\n' + details : ''}\n\n${endings}`;
-    if (goal === 'thanks') message = `${greeting}\n\nMuito obrigado pela preferência e pela confiança em nosso trabalho com ${business}! 💚 Esperamos que você goste da sua compra. Se precisar de qualquer coisa, estamos por aqui.${details ? '\n\n' + details : ''}`;
-    return message;
-  };
   form.addEventListener('submit', async event => {
     event.preventDefault();
+    const submitButton = form.querySelector('[type="submit"]');
+    if (submitButton.disabled) return;
     const fields = {
       business: clean(document.getElementById('business').value),
       customer: clean(document.getElementById('customer').value),
@@ -120,10 +109,9 @@
       goal: document.getElementById('goal').value,
       tone: document.getElementById('tone').value
     };
-    const submitButton = form.querySelector('[type="submit"]');
     const originalButtonText = submitButton.innerHTML;
     submitButton.disabled = true;
-    submitButton.textContent = 'Gerando...';
+    submitButton.textContent = 'Gerando mensagem...';
     resultText.textContent = 'Preparando sua sugestão...';
     result.classList.add('show');
     result.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -137,7 +125,7 @@
       if (!response.ok || !data.message) throw new Error('Falha na geração');
       resultText.textContent = data.message;
     } catch {
-      resultText.textContent = `Não foi possível acessar a IA agora, mas preparamos esta sugestão para você:\n\n${createFallbackMessage(fields)}`;
+      resultText.textContent = 'Houve um problema temporário ao gerar sua mensagem. Por favor, tente novamente.';
     } finally {
       submitButton.disabled = false;
       submitButton.innerHTML = originalButtonText;
