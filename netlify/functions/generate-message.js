@@ -114,6 +114,8 @@ Quando uma informação não tiver sido fornecida, omita-a ou use uma expressão
   .replace(/^(oi|olá|ola)(,? ?tudo bem[?!]? ?)?/i, '')
   .replace(/^(cansado de|cansada de) [^.!?]+[.!?] ?/i, '')
   .replace(/^(que tal|já pensou em) [^.!?]+[?!] ?/i, '')
+  .replace(/^(sabe aquela|sabe aquele) [^.!?]+[?!] ?/i, '')
+  .replace(/^(a gente|nós) [^.!?]+[.!?] ?/i, '')
   .replaceAll('[Nome do Cliente]', '')
   .replaceAll('[nome do cliente]', '')
   .replaceAll('[Nome]', '')
