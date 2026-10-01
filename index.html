@@ -75,7 +75,7 @@
           </div>
           <div class="form-actions"><button class="btn" type="submit">Gerar mensagem <span aria-hidden="true">→</span></button><button class="btn light" type="reset">Limpar</button></div>
         </form>
-        <div class="result" id="result" aria-live="polite"><div class="result-head"><strong>SUA SUGESTÃO</strong><button type="button" class="btn light small" id="copyBtn">Copiar texto</button></div><div class="result-text" id="resultText"></div></div>
+        <div class="result" id="result" aria-live="polite"><div class="result-head"><strong>SUA SUGESTÃO</strong></div><div class="result-text" id="resultText"></div><div id="resultActions" hidden><div class="form-actions"><button type="button" class="btn light small" id="copyBtn">Copiar mensagem</button><a class="btn light small" id="whatsappLink" target="_blank" rel="noopener noreferrer">Abrir no WhatsApp</a><button type="button" class="btn light small" id="regenerateBtn">Gerar outra versão</button></div></div></div>
       </div>
     </div>
   </section>
@@ -96,19 +96,22 @@
   const form = document.getElementById('messageForm');
   const result = document.getElementById('result');
   const resultText = document.getElementById('resultText');
+  const resultActions = document.getElementById('resultActions');
+  const copyButton = document.getElementById('copyBtn');
+  const whatsappLink = document.getElementById('whatsappLink');
+  const submitButton = form.querySelector('[type="submit"]');
+  let generatedMessage = '';
+  let lastFields = null;
+  let copyTimeout;
   document.getElementById('year').textContent = new Date().getFullYear();
   const clean = value => value.trim();
-  form.addEventListener('submit', async event => {
-    event.preventDefault();
-    const submitButton = form.querySelector('[type="submit"]');
+  const generateMessage = async fields => {
     if (submitButton.disabled) return;
-    const fields = {
-      business: clean(document.getElementById('business').value),
-      customer: clean(document.getElementById('customer').value),
-      details: clean(document.getElementById('details').value),
-      goal: document.getElementById('goal').value,
-      tone: document.getElementById('tone').value
-    };
+    clearTimeout(copyTimeout);
+    copyButton.textContent = 'Copiar mensagem';
+    resultActions.hidden = true;
+    generatedMessage = '';
+    whatsappLink.removeAttribute('href');
     const originalButtonText = submitButton.innerHTML;
     submitButton.disabled = true;
     submitButton.textContent = 'Gerando mensagem...';
@@ -124,27 +127,57 @@
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.message) throw new Error('Falha na geração');
       resultText.textContent = data.message;
+      generatedMessage = data.message;
+      lastFields = fields;
+      whatsappLink.href = 'https://wa.me/?text=' + encodeURIComponent(generatedMessage);
+      resultActions.hidden = false;
     } catch {
       resultText.textContent = 'Houve um problema temporário ao gerar sua mensagem. Por favor, tente novamente.';
     } finally {
       submitButton.disabled = false;
       submitButton.innerHTML = originalButtonText;
     }
+  };
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    generateMessage({
+      business: clean(document.getElementById('business').value),
+      customer: clean(document.getElementById('customer').value),
+      details: clean(document.getElementById('details').value),
+      goal: document.getElementById('goal').value,
+      tone: document.getElementById('tone').value
+    });
   });
-  document.getElementById('copyBtn').addEventListener('click', async () => {
+  document.getElementById('regenerateBtn').addEventListener('click', () => {
+    if (generatedMessage && lastFields) generateMessage(lastFields);
+  });
+  copyButton.addEventListener('click', async () => {
+    if (!generatedMessage || submitButton.disabled) return;
+    const message = generatedMessage;
+    clearTimeout(copyTimeout);
     try {
-      await navigator.clipboard.writeText(resultText.textContent);
-      document.getElementById('copyBtn').textContent = 'Copiado!';
-      setTimeout(() => document.getElementById('copyBtn').textContent = 'Copiar texto', 1600);
+      await navigator.clipboard.writeText(message);
+      if (generatedMessage !== message) return;
+      copyButton.textContent = 'Mensagem copiada!';
+      copyTimeout = setTimeout(() => copyButton.textContent = 'Copiar mensagem', 1600);
     } catch {
+      if (generatedMessage !== message) return;
       const range = document.createRange();
       range.selectNodeContents(resultText);
       const selection = window.getSelection();
       selection.removeAllRanges(); selection.addRange(range);
-      document.getElementById('copyBtn').textContent = 'Selecione e copie';
+      copyButton.textContent = 'Selecione e copie';
     }
   });
-  form.addEventListener('reset', () => result.classList.remove('show'));
+  form.addEventListener('reset', () => {
+    clearTimeout(copyTimeout);
+    generatedMessage = '';
+    lastFields = null;
+    resultActions.hidden = true;
+    whatsappLink.removeAttribute('href');
+    copyButton.textContent = 'Copiar mensagem';
+    result.classList.remove('show');
+  });
 </script>
 </body>
 </html>
