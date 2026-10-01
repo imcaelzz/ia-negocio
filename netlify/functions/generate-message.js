@@ -52,21 +52,33 @@ Detalhes extras: ${details || 'nenhum'}
 
 Escreva somente a mensagem pronta para envio, sem título, explicações, aspas ou formatação Markdown. Seja claro, natural e breve. Não invente preço, prazo, desconto, nome ou condição que não tenha sido informada. Inclua uma chamada para ação adequada ao objetivo.`;
 
-    const geminiResponse = await fetch(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': apiKey,
-        },
-        body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.8, maxOutputTokens: 500 },
-        }),
-        signal: AbortSignal.timeout(25000),
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey,
       },
-    );
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.8, maxOutputTokens: 500 },
+      }),
+      signal: AbortSignal.timeout(25000),
+    };
+    let geminiResponse;
+
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      geminiResponse = await fetch(
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent',
+        requestOptions,
+      );
+
+      if (geminiResponse.status !== 503 || attempt === 1) {
+        break;
+      }
+
+      await geminiResponse.body?.cancel();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
 
     if (!geminiResponse.ok) {
       console.error(`A API Gemini respondeu com status ${geminiResponse.status}.`);
