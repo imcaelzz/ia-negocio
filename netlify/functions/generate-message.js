@@ -107,10 +107,23 @@ Regras:
     }
 
     const data = await geminiResponse.json();
-    const message = data.candidates?.[0]?.content?.parts
-      ?.map((part) => part.text || '')
-      .join('')
-      .trim();
+
+const rawMessage = data.candidates?.[0]?.content?.parts
+  ?.map((part) => part.text || '')
+  .join('')
+  .trim();
+
+let message = '';
+
+try {
+  const parsed = JSON.parse(rawMessage);
+  message = [parsed.opening, parsed.details, parsed.cta]
+    .filter(Boolean)
+    .join(' ')
+    .trim();
+} catch {
+  message = rawMessage;
+}
 
     if (!message) {
       console.error('A API Gemini não retornou texto.');
