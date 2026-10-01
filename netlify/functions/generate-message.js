@@ -117,7 +117,10 @@ let message = '';
 
 try {
   const parsed = JSON.parse(rawMessage);
-  message = [parsed.opening, parsed.details, parsed.cta]
+
+  const opening = `${business}: ${details || 'Confira nossa oferta de hoje.'}`;
+
+  message = [opening, parsed.details, parsed.cta]
     .filter(Boolean)
     .join(' ')
     .trim();
